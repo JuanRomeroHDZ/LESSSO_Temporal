@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Configuración básica del documento -->
+    <meta charset="UTF-8">
+    <!-- Asegura que la página se vea bien en dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LESSSO. | Red Team</title>
+
+    <!-- 
+      ========================================================
+      SECCIÓN CSS: Aquí definimos todo el diseño visual.
+      Está separado del HTML estructural para mantener el orden.
+      ======================================================== 
+    -->
+    <style>
+        /* 1. RESETEO BÁSICO */
+        /* Eliminamos los márgenes por defecto de los navegadores para tener control total */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 2. ESTILOS DEL CUERPO (Fondo y centrado) */
+        body {
+            /* Colores oscuros clásicos en temas de ciberseguridad */
+            background-color: #0a0a0a; 
+            color: #ffffff;
+            
+            /* Usamos Flexbox para centrar todo perfectamente en la pantalla */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* Ocupa el 100% del alto de la ventana del navegador */
+            min-height: 100vh;
+            
+            /* Fuente limpia y sin remates */
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* 3. CONTENEDOR PRINCIPAL */
+        /* Agrupa los textos y los mantiene alineados al centro */
+        .container {
+            text-align: center;
+        }
+
+        /* 4. TÍTULO PRINCIPAL (LESSSO) */
+        .main-title {
+            /* clamp() hace que el texto sea responsivo: 
+               mínimo 4rem, tamaño ideal 10vw (se ajusta a la pantalla), máximo 8rem */
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 900;
+            letter-spacing: -2px; /* Junta un poco las letras para darle más fuerza */
+            line-height: 1;
+        }
+
+        /* 5. EL PUNTO ROJO */
+        .red-dot {
+            color: #ff003c; /* Tono de rojo brillante */
+            /* Animación sutil de latido o brillo intermitente */
+            animation: pulse 2s infinite;
+        }
+
+        /* 6. TEXTO SUTIL (próximamente) */
+        .subtle-text {
+            color: #4a4a4a; /* Gris muy oscuro para que apenas se note */
+            font-size: 1rem;
+            letter-spacing: 4px; /* Letras separadas para un look elegante */
+            text-transform: lowercase;
+            margin-top: 5px;
+            margin-bottom: 40px; /* Espacio antes del siguiente texto */
+        }
+
+        /* 7. TEXTO INFERIOR (pentesting o red team) */
+        .specialty {
+            /* Fuente monoespaciada para darle ese toque "hacker/terminal" */
+            font-family: 'Courier New', Courier, monospace;
+            color: #00ffcc; /* Verde cian típico de terminales modernas */
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            
+            /* Una pequeña línea decorativa arriba del texto */
+            border-top: 1px solid #333333;
+            padding-top: 15px;
+            display: inline-block;
+        }
+
+        /* 8. ANIMACIONES */
+        /* Efecto de latido para el punto rojo */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 15px #ff003c; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 
+      ========================================================
+      SECCIÓN HTML: Aquí definimos la estructura del contenido.
+      ======================================================== 
+    -->
+    <div class="container">
+        
+        <!-- Título en grande con el punto encapsulado en un <span> para darle su propio color -->
+        <h1 class="main-title">
+            LESSSO<span class="red-dot">.</span>
+        </h1>
+        
+        <!-- Texto sutil justo debajo del título -->
+        <p class="subtle-text">próximamente</p>
+        
+        <!-- La especialidad en la parte inferior -->
+        <p class="specialty">pentesting &middot; red team</p>
+
+    </div>
+
+</body>
+</html>
