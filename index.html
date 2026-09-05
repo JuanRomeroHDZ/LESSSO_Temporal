@@ -1,121 +1,229 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Configuración básica del documento -->
+    <!-- ========================================================
+         CONFIGURACIÓN DEL DOCUMENTO
+         ======================================================== -->
     <meta charset="UTF-8">
-    <!-- Asegura que la página se vea bien en dispositivos móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LESSSO. | Red Team</title>
 
-    <!-- 
-      ========================================================
-      SECCIÓN CSS: Aquí definimos todo el diseño visual.
-      Está separado del HTML estructural para mantener el orden.
-      ======================================================== 
-    -->
+    <!-- ========================================================
+         SECCIÓN CSS: ESTILOS Y ANIMACIONES
+         ======================================================== -->
     <style>
-        /* 1. RESETEO BÁSICO */
-        /* Eliminamos los márgenes por defecto de los navegadores para tener control total */
+        /* --- 1. RESETEO BÁSICO --- */
+        /* Eliminamos los márgenes por defecto para evitar barras de desplazamiento indeseadas */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* 2. ESTILOS DEL CUERPO (Fondo y centrado) */
+        /* --- 2. ESTILOS DEL CUERPO DE LA PÁGINA --- */
         body {
-            /* Colores oscuros clásicos en temas de ciberseguridad */
-            background-color: #0a0a0a; 
+            /* Fondo muy oscuro, casi negro, ideal para el tema ciberseguridad */
+            background-color: #070707; 
             color: #ffffff;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             
-            /* Usamos Flexbox para centrar todo perfectamente en la pantalla */
+            /* Usamos Flexbox para centrar el contenido principal (LESSSO) */
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             
-            /* Ocupa el 100% del alto de la ventana del navegador */
-            min-height: 100vh;
+            /* Ocupa el 100% de la pantalla visible */
+            height: 100vh;
             
-            /* Fuente limpia y sin remates */
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            /* Escondemos cualquier cosa que se salga de la pantalla (los meteoritos) */
+            overflow: hidden; 
+            
+            /* Establecemos posición relativa para poder posicionar el fondo detrás */
+            position: relative;
         }
 
-        /* 3. CONTENEDOR PRINCIPAL */
-        /* Agrupa los textos y los mantiene alineados al centro */
+        /* --- 3. SISTEMA DE FONDO ANIMADO (Puro CSS) --- */
+        /* Contenedor que agrupa todos los "paquetes" o "meteoritos" */
+        .cyber-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* z-index negativo asegura que el fondo quede por DETRÁS del texto principal */
+            z-index: -1; 
+            /* Evita que el usuario pueda hacer clic o seleccionar el texto de fondo */
+            pointer-events: none; 
+            user-select: none;
+        }
+
+        /* Estilo base de cada "paquete de datos" / "meteorito" */
+        .packet {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Espacio entre el punto luminoso y el texto */
+            
+            /* Color verde/cian sutil para los textos de hacking en el fondo */
+            color: rgba(0, 255, 204, 0.15); 
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            
+            /* Evita que el texto se rompa en dos líneas */
+            white-space: nowrap; 
+        }
+
+        /* El "Punto luminoso" o cabeza del meteorito creado con CSS (pseudo-elemento) */
+        .packet::before {
+            content: '';
+            width: 3px;
+            height: 3px;
+            background-color: rgba(0, 255, 204, 0.4); /* Verde un poco más brillante */
+            border-radius: 50%;
+            /* Efecto de resplandor (glow) en la cabeza del meteorito */
+            box-shadow: 0 0 8px rgba(0, 255, 204, 0.8);
+        }
+
+        /* 
+           Variaciones de paquetes: Diferentes posiciones de inicio, 
+           velocidades (duración de la animación) y retrasos (delay) 
+           para simular caos y evitar un patrón repetitivo.
+        */
+        .p1 { top: 10%; left: -20%; animation: traverseRight 12s linear infinite; }
+        .p2 { top: 30%; right: -20%; animation: traverseLeft 15s linear infinite 2s; }
+        .p3 { top: 50%; left: -20%; animation: traverseRight 18s linear infinite 5s; }
+        .p4 { top: 75%; right: -20%; animation: traverseLeft 10s linear infinite 1s; }
+        .p5 { top: 90%; left: -20%; animation: traverseRight 14s linear infinite 4s; }
+        
+        /* Paquetes diagonales (efecto meteorito cayendo) */
+        .p6 { top: -10%; left: 20%; animation: traverseDiagonal 13s linear infinite 3s; }
+        .p7 { top: -10%; left: 70%; animation: traverseDiagonal 16s linear infinite; }
+
+        /* Keyframes: Las rutas de las animaciones */
+        
+        /* De izquierda a derecha */
+        @keyframes traverseRight {
+            0% { transform: translateX(0); opacity: 0; }
+            10% { opacity: 1; } /* Aparece suavemente */
+            90% { opacity: 1; }
+            100% { transform: translateX(120vw); opacity: 0; } /* Desaparece al salir de la pantalla */
+        }
+
+        /* De derecha a izquierda */
+        @keyframes traverseLeft {
+            0% { transform: translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(-120vw); opacity: 0; }
+        }
+
+        /* Diagonal (Cayendo como meteorito de arriba-izquierda hacia abajo-derecha) */
+        @keyframes traverseDiagonal {
+            0% { transform: translate(0, 0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(80vw, 120vh); opacity: 0; }
+        }
+
+
+        /* --- 4. CONTENEDOR PRINCIPAL (TEXTO CENTRAL) --- */
         .container {
             text-align: center;
+            /* Le damos un z-index positivo para asegurarnos de que esté frente al fondo */
+            z-index: 10; 
+            /* Un pequeño resplandor oscuro detrás del texto principal para que siempre sea legible aunque un "paquete" pase por detrás */
+            background: radial-gradient(circle, rgba(7,7,7,0.8) 0%, rgba(7,7,7,0) 70%);
+            padding: 40px;
         }
 
-        /* 4. TÍTULO PRINCIPAL (LESSSO) */
+        /* --- 5. TÍTULO PRINCIPAL (LESSSO) --- */
         .main-title {
-            /* clamp() hace que el texto sea responsivo: 
-               mínimo 4rem, tamaño ideal 10vw (se ajusta a la pantalla), máximo 8rem */
+            /* Texto responsivo que crece con la pantalla */
             font-size: clamp(4rem, 10vw, 8rem);
             font-weight: 900;
-            letter-spacing: -2px; /* Junta un poco las letras para darle más fuerza */
+            letter-spacing: -2px;
             line-height: 1;
+            /* Sombra sutil blanca para destacar del fondo negro */
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
         }
 
-        /* 5. EL PUNTO ROJO */
+        /* --- 6. EL PUNTO ROJO ANIMADO --- */
         .red-dot {
-            color: #ff003c; /* Tono de rojo brillante */
-            /* Animación sutil de latido o brillo intermitente */
-            animation: pulse 2s infinite;
-        }
-
-        /* 6. TEXTO SUTIL (próximamente) */
-        .subtle-text {
-            color: #4a4a4a; /* Gris muy oscuro para que apenas se note */
-            font-size: 1rem;
-            letter-spacing: 4px; /* Letras separadas para un look elegante */
-            text-transform: lowercase;
-            margin-top: 5px;
-            margin-bottom: 40px; /* Espacio antes del siguiente texto */
-        }
-
-        /* 7. TEXTO INFERIOR (pentesting o red team) */
-        .specialty {
-            /* Fuente monoespaciada para darle ese toque "hacker/terminal" */
-            font-family: 'Courier New', Courier, monospace;
-            color: #00ffcc; /* Verde cian típico de terminales modernas */
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            
-            /* Una pequeña línea decorativa arriba del texto */
-            border-top: 1px solid #333333;
-            padding-top: 15px;
+            color: #ff003c; 
+            /* Animación de latido definida abajo */
+            animation: pulse 2s infinite ease-in-out;
             display: inline-block;
         }
 
-        /* 8. ANIMACIONES */
-        /* Efecto de latido para el punto rojo */
+        /* --- 7. TEXTO SUTIL (próximamente) --- */
+        .subtle-text {
+            color: #555555; 
+            font-size: 1rem;
+            letter-spacing: 6px; 
+            text-transform: lowercase;
+            margin-top: 10px;
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        /* --- 8. TEXTO INFERIOR (pentesting o red team) --- */
+        .specialty {
+            font-family: 'Courier New', Courier, monospace;
+            color: #00ffcc; /* Verde cian, conecta con el color de los paquetes del fondo */
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            
+            /* Línea decorativa estilo terminal */
+            border-top: 1px dashed rgba(0, 255, 204, 0.4);
+            padding-top: 20px;
+            display: inline-block;
+            
+            /* Pequeña animación de brillo para que parezca encendido */
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+
+        /* --- 9. ANIMACIONES ESPECÍFICAS DE ELEMENTOS PRINCIPALES --- */
+        /* Efecto de latido del punto rojo */
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; text-shadow: 0 0 15px #ff003c; }
-            100% { opacity: 1; }
+            0% { transform: scale(1); opacity: 1; text-shadow: 0 0 10px #ff003c; }
+            50% { transform: scale(1.1); opacity: 0.6; text-shadow: 0 0 25px #ff003c; }
+            100% { transform: scale(1); opacity: 1; text-shadow: 0 0 10px #ff003c; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 
-      ========================================================
-      SECCIÓN HTML: Aquí definimos la estructura del contenido.
-      ======================================================== 
-    -->
+    <!-- ========================================================
+         SECCIÓN HTML: ESTRUCTURA VISUAL Y FONDO ANIMADO
+         ======================================================== -->
+
+    <!-- El fondo cibernético con los paquetes de datos fluyendo -->
+    <div class="cyber-background">
+        <!-- Cada span es un "paquete" con texto de hacking, viajan a diferentes velocidades -->
+        <span class="packet p1">[PAYLOAD_DELIVERED]</span>
+        <span class="packet p2">BYPASS_AUTH::TRUE</span>
+        <span class="packet p3">GET /root/etc/shadow</span>
+        <span class="packet p4">SYS_OVERFLOW_0x8F</span>
+        <span class="packet p5">INJECTING_SHELLCODE...</span>
+        <span class="packet p6">01001000 01100001</span>
+        <span class="packet p7">CONNECTION_ESTABLISHED</span>
+    </div>
+
+    <!-- El contenedor central con la información principal de la página -->
     <div class="container">
         
-        <!-- Título en grande con el punto encapsulado en un <span> para darle su propio color -->
+        <!-- Título principal con el punto rojo separado para poder animarlo independientemente -->
         <h1 class="main-title">
             LESSSO<span class="red-dot">.</span>
         </h1>
         
-        <!-- Texto sutil justo debajo del título -->
+        <!-- El mensaje sutil -->
         <p class="subtle-text">próximamente</p>
         
-        <!-- La especialidad en la parte inferior -->
+        <!-- La especialidad enfocada en ciberseguridad -->
         <p class="specialty">pentesting &middot; red team</p>
 
     </div>
